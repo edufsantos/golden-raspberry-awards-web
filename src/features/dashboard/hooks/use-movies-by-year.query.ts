@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useServices } from '@/app/context/services-context';
 import type { MovieByYear } from '../models/fetch-movies-by-year';
 
-export const useMoviesByYearQuery = (year: number | null) => {
+export const useMoviesByYearQuery = (year: number) => {
   const { dashboardService } = useServices();
 
   const [data, setData] = useState<MovieByYear[]>([]);

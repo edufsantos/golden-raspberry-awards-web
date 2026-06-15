@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 type TableHeader = {
   key: string;
@@ -15,20 +15,20 @@ type SimpleTableProps<T> = {
 
 const SimpleTable = <T,>({
   headers,
-  rows,
+  rows = [],
   getRowKey,
   renderRow,
-  emptyMessage = "Sem dados",
+  emptyMessage = 'Sem dados',
 }: SimpleTableProps<T>) => {
   return (
-    <div className="overflow-x-auto rounded-md border">
-      <table className="min-w-full text-sm">
+    <div className='overflow-x-auto rounded-md border'>
+      <table className='min-w-full text-sm'>
         <thead>
-          <tr className="bg-muted/50 text-left">
+          <tr className='bg-muted/50 text-left'>
             {headers.map((header) => (
               <th
                 key={header.key}
-                className="h-10 border-b px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground"
+                className='h-10 border-b px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground'
               >
                 {header.label}
               </th>
@@ -38,9 +38,12 @@ const SimpleTable = <T,>({
         <tbody>
           {rows.length > 0 ? (
             rows.map((row, index) => (
-              <tr key={getRowKey(row, index)} className="border-b text-left last:border-b-0">
+              <tr
+                key={getRowKey(row, index)}
+                className='border-b text-left last:border-b-0'
+              >
                 {renderRow(row).map((cell, cellIndex) => (
-                  <td key={cellIndex} className="h-10 px-3 text-foreground">
+                  <td key={cellIndex} className='h-10 px-3 text-foreground'>
                     {cell}
                   </td>
                 ))}
@@ -48,7 +51,10 @@ const SimpleTable = <T,>({
             ))
           ) : (
             <tr>
-              <td className="px-3 py-4 text-muted-foreground" colSpan={headers.length}>
+              <td
+                className='px-3 py-4 text-muted-foreground'
+                colSpan={headers.length}
+              >
                 {emptyMessage}
               </td>
             </tr>

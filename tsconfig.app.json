@@ -23,7 +23,6 @@
     "ignoreDeprecations": "5.0",
 
     /* Resolver */
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
