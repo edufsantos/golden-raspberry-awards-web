@@ -1,77 +1,93 @@
-import { describe, expect, it } from 'vitest';
+// @vitest-environment happy-dom
+import '@testing-library/jest-dom/vitest';
+import { cleanup, render, screen, within } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
+
 import { SimpleTable } from './simple-table';
 
+type Row = { id: number; name: string; value: number };
+
+const headers = [
+  { key: 'name', label: 'Nome' },
+  { key: 'value', label: 'Valor' },
+];
+
+afterEach(() => {
+  cleanup();
+});
+
 describe('SimpleTable', () => {
-  it('should be a valid React component', () => {
-    expect(SimpleTable).toBeDefined();
-    expect(typeof SimpleTable).toBe('function');
-  });
-
-  it('should accept required props', () => {
-    const mockHeaders = [
-      { key: 'name', label: 'Name' },
-      { key: 'age', label: 'Age' },
+  it('renders headers and data rows', () => {
+    const rows: Row[] = [
+      { id: 1, name: 'A', value: 10 },
+      { id: 2, name: 'B', value: 20 },
     ];
 
-    const mockRows = [
-      { name: 'John', age: 30 },
-      { name: 'Jane', age: 25 },
-    ];
+    render(
+      <SimpleTable<Row>
+        headers={headers}
+        rows={rows}
+        getRowKey={(row) => row.id}
+        renderRow={(row) => [row.name, row.value]}
+      />,
+    );
 
-    const mockGetRowKey = (row: (typeof mockRows)[0]) => row.name;
-    const mockRenderRow = (row: (typeof mockRows)[0]) => [row.name, row.age];
-
-    expect(mockHeaders).toHaveLength(2);
-    expect(mockRows).toHaveLength(2);
-    expect(typeof mockGetRowKey).toBe('function');
-    expect(typeof mockRenderRow).toBe('function');
+    expect(screen.getByText('Nome')).toBeInTheDocument();
+    expect(screen.getByText('Valor')).toBeInTheDocument();
+    expect(screen.getByText('A')).toBeInTheDocument();
+    expect(screen.getByText('20')).toBeInTheDocument();
   });
 
-  it('should have proper table structure', () => {
-    const headers = [
-      { key: 'col1', label: 'Column 1' },
-      { key: 'col2', label: 'Column 2' },
-    ];
+  it('renders custom empty message and correct colspan when no rows', () => {
+    render(
+      <SimpleTable<Row>
+        headers={headers}
+        rows={[]}
+        getRowKey={(row) => row.id}
+        renderRow={(row) => [row.name, row.value]}
+        emptyMessage='Sem resultados'
+      />,
+    );
 
-    expect(headers).toBeDefined();
-    headers.forEach((header) => {
-      expect(header).toHaveProperty('key');
-      expect(header).toHaveProperty('label');
-    });
+    const message = screen.getByText('Sem resultados');
+    expect(message).toBeInTheDocument();
+    expect(message.tagName).toBe('TD');
+    expect(message).toHaveAttribute('colspan', '2');
   });
 
-  it('should handle empty message prop', () => {
-    const emptyMessage = 'No data available';
-    expect(emptyMessage).toBe('No data available');
+  it('uses default empty message when emptyMessage is not provided', () => {
+    render(
+      <SimpleTable<Row>
+        headers={headers}
+        rows={[]}
+        getRowKey={(row) => row.id}
+        renderRow={(row) => [row.name, row.value]}
+      />,
+    );
+
+    expect(screen.getByText('Sem dados')).toBeInTheDocument();
   });
 
-  it('should render rows with correct data structure', () => {
-    const rows = [
-      { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 2' },
-      { id: 3, name: 'Item 3' },
-    ];
+  it('renders cells returned by renderRow in order', () => {
+    const rows: Row[] = [{ id: 1, name: 'Linha', value: 99 }];
 
-    expect(rows).toHaveLength(3);
-    rows.forEach((row) => {
-      expect(row).toHaveProperty('id');
-      expect(row).toHaveProperty('name');
-    });
-  });
+    const { container } = render(
+      <SimpleTable<Row>
+        headers={headers}
+        rows={rows}
+        getRowKey={(row) => row.id}
+        renderRow={(row) => [row.name, `R$ ${row.value}`]}
+      />,
+    );
 
-  it('should have generic type support', () => {
-    type TestRow = {
-      id: string;
-      value: number;
-    };
-
-    const testRows: TestRow[] = [
-      { id: '1', value: 100 },
-      { id: '2', value: 200 },
-    ];
-
-    expect(testRows).toBeDefined();
-    expect(testRows[0]).toHaveProperty('id', '1');
-    expect(testRows[0]).toHaveProperty('value', 100);
+    const table = container.querySelector('table');
+    expect(table).not.toBeNull();
+    if (!table) {
+      return;
+    }
+    const bodyRows = within(table).getAllByRole('row');
+    expect(bodyRows.length).toBeGreaterThanOrEqual(2);
+    expect(screen.getByText('Linha')).toBeInTheDocument();
+    expect(screen.getByText('R$ 99')).toBeInTheDocument();
   });
 });

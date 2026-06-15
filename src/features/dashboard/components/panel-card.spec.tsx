@@ -1,34 +1,37 @@
+// @vitest-environment happy-dom
+import '@testing-library/jest-dom/vitest';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+
 import { PanelCard } from './panel-card';
 
 describe('PanelCard', () => {
-  it('should be a valid React component', () => {
-    expect(PanelCard).toBeDefined();
-    expect(typeof PanelCard).toBe('function');
+  it('renders title and children', () => {
+    render(
+      <PanelCard title='Meu painel'>
+        <p>Conteúdo interno</p>
+      </PanelCard>,
+    );
+
+    expect(screen.getByText('Meu painel')).toBeInTheDocument();
+    expect(screen.getByText('Conteúdo interno')).toBeInTheDocument();
   });
 
-  it('should accept title and children props', () => {
-    const testTitle = 'Test Title';
-    const testChildren = 'Test content';
+  it('applies expected container and title classes', () => {
+    const { container } = render(
+      <PanelCard title='Título'>
+        <span>Child</span>
+      </PanelCard>,
+    );
 
-    expect(testTitle).toBe('Test Title');
-    expect(testChildren).toBe('Test content');
-  });
+    const section = container.querySelector('section');
+    const title = container.querySelector('h2');
 
-  it('should have correct component structure', () => {
-    expect(PanelCard.name).toBe('PanelCard');
-  });
-
-  it('should accept any ReactNode as children', () => {
-    const childComponent = <div>Test child</div>;
-    expect(childComponent).toBeDefined();
-    expect(childComponent.type).toBe('div');
-  });
-
-  it('should accept title string prop', () => {
-    const titles = ['Panel 1', 'Panel 2', 'Panel 3'];
-    titles.forEach((title) => {
-      expect(typeof title).toBe('string');
-    });
+    expect(section).toHaveClass('rounded-xl', 'border', 'bg-card', 'p-4');
+    expect(title).toHaveClass(
+      'text-sm',
+      'font-medium',
+      'text-muted-foreground',
+    );
   });
 });
