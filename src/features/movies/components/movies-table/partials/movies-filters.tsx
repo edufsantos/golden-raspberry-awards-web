@@ -9,24 +9,24 @@ type MoviesFiltersProps = {
 
 const MoviesFilters = ({ year, winner, onYearChange, onWinnerChange }: MoviesFiltersProps) => {
   return (
-    <div className="mb-4 flex flex-wrap gap-3">
-      <label className="flex flex-col text-left text-sm text-slate-700">
+    <div className="mb-4 grid gap-3 md:grid-cols-3">
+      <label className="flex flex-col text-sm text-muted-foreground">
         Year
         <input
           type="number"
           value={year}
           onChange={(event) => onYearChange(event.target.value)}
-          className="mt-1 h-10 w-36 rounded-md border border-slate-300 px-3"
+          className="mt-1 h-10 rounded-md border bg-background px-3 text-foreground"
           placeholder="Ex: 2018"
         />
       </label>
 
-      <label className="flex flex-col text-left text-sm text-slate-700">
+      <label className="flex flex-col text-sm text-muted-foreground">
         Winner
         <select
           value={winner}
           onChange={(event) => onWinnerChange(event.target.value as WinnerFilter)}
-          className="mt-1 h-10 w-36 rounded-md border border-slate-300 px-3"
+          className="mt-1 h-10 rounded-md border bg-background px-3 text-foreground"
         >
           <option value="all">All</option>
           <option value="yes">Yes</option>

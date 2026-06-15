@@ -2,19 +2,21 @@ import { NavLink, Outlet } from "react-router";
 
 const Layout = () => {
   return (
-    <div className="mx-auto min-h-screen w-full max-w-6xl px-4 py-6">
-      <header className="mb-6 rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-        <h1 className="mb-3 text-left text-xl font-semibold text-slate-900">
-          Razzie Movies Dashboard
-        </h1>
-        <nav className="flex gap-2">
+    <div className="min-h-screen bg-muted/30">
+      <header className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:px-6">
+          <div className="flex flex-col items-start">
+            <span className="text-sm font-medium text-muted-foreground">Outsera</span>
+            <span className="text-base font-semibold">Golden Raspberry Awards</span>
+          </div>
+          <nav className="flex gap-2">
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `rounded-md px-3 py-2 text-sm font-medium ${
+              `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-slate-900 text-white"
-                  : "border border-slate-300 text-slate-700 hover:bg-slate-100"
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-border bg-background text-foreground hover:bg-muted"
               }`
             }
           >
@@ -23,19 +25,20 @@ const Layout = () => {
           <NavLink
             to="/movies"
             className={({ isActive }) =>
-              `rounded-md px-3 py-2 text-sm font-medium ${
+              `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-slate-900 text-white"
-                  : "border border-slate-300 text-slate-700 hover:bg-slate-100"
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-border bg-background text-foreground hover:bg-muted"
               }`
             }
           >
             Movies
           </NavLink>
         </nav>
+        </div>
       </header>
 
-      <main>
+      <main className="mx-auto w-full max-w-7xl p-4 md:p-6">
         <Outlet />
       </main>
     </div>

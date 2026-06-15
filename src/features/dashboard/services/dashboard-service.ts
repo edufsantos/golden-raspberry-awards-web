@@ -22,14 +22,14 @@ class DashboardService {
     try {
       const [yearsResponse, studiosResponse, producerIntervals] =
         await Promise.all([
-          this.httpClient.get<YearsWithMultipleWinnersResponse>('/movies', {
-            params: { projection: 'years-with-multiple-winners' },
-          }),
-          this.httpClient.get<StudiosWithWinCountResponse>('/movies', {
-            params: { projection: 'studios-with-win-count' },
-          }),
+          this.httpClient.get<YearsWithMultipleWinnersResponse>(
+            '/api/movies/yearsWithMultipleWinners',
+          ),
+          this.httpClient.get<StudiosWithWinCountResponse>(
+            '/api/movies/studiosWithWinCount',
+          ),
           this.httpClient.get<ProducerAwardsIntervalResponse>(
-            '/producers/awards-interval',
+            '/api/movies/maxMinWinIntervalForProducers',
           ),
         ]);
 
@@ -51,17 +51,13 @@ class DashboardService {
 
   async fetchMoviesByYear(year: number): Promise<Movie[]> {
     try {
-      const response = await this.httpClient.get<
-        Movie[] | { content?: Movie[] }
-      >('/movies', {
-        params: { year },
-      });
-
-      if (Array.isArray(response)) {
-        return response;
-      }
-
-      return response.content ?? [];
+      const response = await this.httpClient.get<Movie[]>(
+        '/api/movies/winnersByYear',
+        {
+          params: { year },
+        },
+      );
+      return response ?? [];
     } catch (error) {
       this.logger.error(
         `DashboardService.fetchMoviesByYear failed: ${String(error)}`,

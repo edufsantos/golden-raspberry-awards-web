@@ -16,40 +16,40 @@ const MoviesTable = () => {
   const { data, isLoading, isError, isFetching } = useFetchMoviesQuery();
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+    <section className="rounded-xl border bg-card p-4 text-card-foreground shadow-sm">
       <MoviesFilters year={year} winner={winner} onYearChange={setYear} onWinnerChange={setWinner} />
 
-      {isLoading && <p className="text-left text-slate-600">Carregando filmes...</p>}
+      {isLoading && <p className="text-sm text-muted-foreground">Carregando filmes...</p>}
       {isError && (
-        <p className="text-left text-red-600">Erro ao carregar filmes. Tente novamente.</p>
+        <p className="text-sm text-destructive">Erro ao carregar filmes. Tente novamente.</p>
       )}
 
       {!isLoading && !isError && (
         <>
-          {isFetching && <p className="mb-2 text-left text-slate-500">Atualizando tabela...</p>}
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse text-sm">
+          {isFetching && <p className="mb-2 text-sm text-muted-foreground">Atualizando tabela...</p>}
+          <div className="overflow-x-auto rounded-md border">
+            <table className="min-w-full text-sm">
               <thead>
-                <tr className="bg-slate-50 text-left">
-                  <th className="border-b border-slate-200 px-3 py-2 font-medium text-slate-700">Id</th>
-                  <th className="border-b border-slate-200 px-3 py-2 font-medium text-slate-700">Year</th>
-                  <th className="border-b border-slate-200 px-3 py-2 font-medium text-slate-700">Title</th>
-                  <th className="border-b border-slate-200 px-3 py-2 font-medium text-slate-700">Winner</th>
+                <tr className="bg-muted/50 text-left">
+                  <th className="h-10 border-b px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Id</th>
+                  <th className="h-10 border-b px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Year</th>
+                  <th className="h-10 border-b px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Title</th>
+                  <th className="h-10 border-b px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Winner</th>
                 </tr>
               </thead>
               <tbody>
                 {(data?.content ?? []).length > 0 ? (
                   (data?.content ?? []).map((movie) => (
-                    <tr key={movie.id} className="text-left odd:bg-white even:bg-slate-50/30">
-                      <td className="border-b border-slate-100 px-3 py-2 text-slate-700">{movie.id}</td>
-                      <td className="border-b border-slate-100 px-3 py-2 text-slate-700">{movie.year}</td>
-                      <td className="border-b border-slate-100 px-3 py-2 text-slate-700">{movie.title}</td>
-                      <td className="border-b border-slate-100 px-3 py-2 text-slate-700">{movie.winner ? "Yes" : "No"}</td>
+                    <tr key={movie.id} className="border-b text-left last:border-b-0">
+                      <td className="h-10 px-3">{movie.id}</td>
+                      <td className="h-10 px-3">{movie.year}</td>
+                      <td className="h-10 px-3">{movie.title}</td>
+                      <td className="h-10 px-3">{movie.winner ? "Yes" : "No"}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={4} className="px-3 py-4 text-left text-slate-500">
+                    <td colSpan={4} className="px-3 py-4 text-left text-muted-foreground">
                       Nenhum filme encontrado.
                     </td>
                   </tr>

@@ -39,7 +39,7 @@ class MoviesService {
             : undefined;
 
       const response = await this.httpClient.get<ApiPaginatedMovies>(
-        '/movies',
+        '/api/movies',
         {
           params: {
             page: params.page,
