@@ -1,10 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, type ReactNode } from "react";
+import React, { createContext, useContext, type ReactNode } from 'react';
 
-import { AxiosHttpClient } from "@/shared/http/axios/axios-http-client";
-import type { HttpClient } from "@/shared/http/models/http-client";
-import type { HttpClientConfig } from "@/shared/http/models/http-client-config";
-
+import { AxiosHttpClient } from '@/shared/http/axios/axios-http-client';
+import type { HttpClient } from '@/shared/http/models/http-client';
+import type { HttpClientConfig } from '@/shared/http/models/http-client-config';
 
 const HttpClientContext = createContext<HttpClient | undefined>(undefined);
 
@@ -31,7 +30,7 @@ const HttpClientProvider: React.FC<HttpClientProviderProps> = ({
 const useHttpClient = (): HttpClient => {
   const context = useContext(HttpClientContext);
   if (!context) {
-    throw new Error("useHttpClient must be used within an HttpClientProvider");
+    throw new Error('useHttpClient must be used within an HttpClientProvider');
   }
   return context;
 };
