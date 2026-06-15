@@ -29,7 +29,8 @@ const createDeferred = <T,>(): Deferred<T> => {
   return { promise, resolve, reject };
 };
 
-const flushPromises = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+const flushPromises = () =>
+  new Promise<void>((resolve) => setTimeout(resolve, 0));
 
 const mockDashboardService = vi.hoisted(() => ({
   fetchMoviesByYear: vi.fn(),
@@ -84,19 +85,30 @@ describe('dashboard query hooks', () => {
 
     it('does not update state when unmounted before success', async () => {
       const deferred = createDeferred<MovieByYear[]>();
-      mockDashboardService.fetchMoviesByYear.mockReturnValueOnce(deferred.promise);
+      mockDashboardService.fetchMoviesByYear.mockReturnValueOnce(
+        deferred.promise,
+      );
 
       const { unmount } = renderHook(() => useMoviesByYearQuery(1998));
 
       await waitFor(() => {
-        expect(mockDashboardService.fetchMoviesByYear).toHaveBeenCalledWith(1998);
+        expect(mockDashboardService.fetchMoviesByYear).toHaveBeenCalledWith(
+          1998,
+        );
       });
 
       unmount();
 
       await act(async () => {
         deferred.resolve([
-          new MovieByYear(2, 1998, 'Late movie', ['Studio'], ['Producer'], false),
+          new MovieByYear(
+            2,
+            1998,
+            'Late movie',
+            ['Studio'],
+            ['Producer'],
+            false,
+          ),
         ]);
         await flushPromises();
       });
@@ -106,12 +118,16 @@ describe('dashboard query hooks', () => {
 
     it('does not update state when unmounted before failure', async () => {
       const deferred = createDeferred<MovieByYear[]>();
-      mockDashboardService.fetchMoviesByYear.mockReturnValueOnce(deferred.promise);
+      mockDashboardService.fetchMoviesByYear.mockReturnValueOnce(
+        deferred.promise,
+      );
 
       const { unmount } = renderHook(() => useMoviesByYearQuery(1997));
 
       await waitFor(() => {
-        expect(mockDashboardService.fetchMoviesByYear).toHaveBeenCalledWith(1997);
+        expect(mockDashboardService.fetchMoviesByYear).toHaveBeenCalledWith(
+          1997,
+        );
       });
 
       unmount();
@@ -169,7 +185,9 @@ describe('dashboard query hooks', () => {
       const { unmount } = renderHook(() => useProducerWinIntervals());
 
       await waitFor(() => {
-        expect(mockDashboardService.fetchProducerWinIntervals).toHaveBeenCalled();
+        expect(
+          mockDashboardService.fetchProducerWinIntervals,
+        ).toHaveBeenCalled();
       });
 
       unmount();
@@ -210,7 +228,9 @@ describe('dashboard query hooks', () => {
       const { unmount } = renderHook(() => useProducerWinIntervals());
 
       await waitFor(() => {
-        expect(mockDashboardService.fetchProducerWinIntervals).toHaveBeenCalled();
+        expect(
+          mockDashboardService.fetchProducerWinIntervals,
+        ).toHaveBeenCalled();
       });
 
       unmount();
@@ -346,7 +366,9 @@ describe('dashboard query hooks', () => {
       const { unmount } = renderHook(() => useStudioWinners());
 
       await waitFor(() => {
-        expect(mockDashboardService.fetchStudiosWithWinCount).toHaveBeenCalled();
+        expect(
+          mockDashboardService.fetchStudiosWithWinCount,
+        ).toHaveBeenCalled();
       });
 
       unmount();
@@ -368,7 +390,9 @@ describe('dashboard query hooks', () => {
       const { unmount } = renderHook(() => useStudioWinners());
 
       await waitFor(() => {
-        expect(mockDashboardService.fetchStudiosWithWinCount).toHaveBeenCalled();
+        expect(
+          mockDashboardService.fetchStudiosWithWinCount,
+        ).toHaveBeenCalled();
       });
 
       unmount();

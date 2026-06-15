@@ -45,7 +45,10 @@ describe('useStudioWinnersRankedHandler', () => {
 
   it('keeps rank sequence when there are fewer than 3 items', () => {
     mockUseStudioWinners.mockReturnValue({
-      data: [new StudioWinners('Studio X', 2), new StudioWinners('Studio Y', 1)],
+      data: [
+        new StudioWinners('Studio X', 2),
+        new StudioWinners('Studio Y', 1),
+      ],
     });
 
     const { result } = renderHook(() => useStudioWinnersRankedHandler());

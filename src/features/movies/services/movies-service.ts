@@ -1,19 +1,13 @@
 import type { HttpClient } from '@/shared/http/models/http-client';
 import { type LoggerInterface } from '@/shared/utils/logger';
 
-import type {
+import {
   Movie,
-  PaginatedMoviesResponse,
-  WinnerFilter,
+  MoviesPaginated,
+  type PaginatedMoviesApiResponse,
+  type RawMovie,
+  type WinnerFilter,
 } from '../models/movie';
-
-type ApiPaginatedMovies = {
-  content?: Movie[];
-  totalPages?: number;
-  totalElements?: number;
-  number?: number;
-  size?: number;
-};
 
 class MoviesService {
   private readonly httpClient: HttpClient;
@@ -29,7 +23,7 @@ class MoviesService {
     size: number;
     year?: number;
     winner?: WinnerFilter;
-  }): Promise<PaginatedMoviesResponse> {
+  }): Promise<MoviesPaginated> {
     try {
       const winnerValue =
         params.winner === 'yes'
@@ -38,7 +32,7 @@ class MoviesService {
             ? false
             : undefined;
 
-      const response = await this.httpClient.get<ApiPaginatedMovies>(
+      const response = await this.httpClient.get<PaginatedMoviesApiResponse>(
         '/movies',
         {
           params: {
@@ -50,15 +44,21 @@ class MoviesService {
         },
       );
 
-      return {
-        content: response.content ?? [],
-        totalPages: response.totalPages ?? 0,
-        totalElements: response.totalElements ?? 0,
-        number: response.number ?? params.page,
-        size: response.size ?? params.size,
-      };
+      return MoviesPaginated.fromApiResponse(response);
     } catch (error) {
       this.logger.error(`MoviesService.fetchMovies failed: ${String(error)}`);
+      throw error;
+    }
+  }
+
+  async fetchMovieById(id: number): Promise<Movie> {
+    try {
+      const response = await this.httpClient.get<RawMovie>(`/movies/${id}`);
+      return Movie.fromApiResponse(response);
+    } catch (error) {
+      this.logger.error(
+        `MoviesService.fetchMovieById failed for id ${id}: ${String(error)}`,
+      );
       throw error;
     }
   }
