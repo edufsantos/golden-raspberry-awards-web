@@ -7,13 +7,13 @@ interface LoggerInterface {
   error(message: string): void;
 }
 
-type LogLevel = "debug" | "info" | "warn" | "error";
+type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 class ConsoleLogger implements LoggerInterface {
-  levels: LogLevel[] = ["debug", "info", "warn", "error"];
+  levels: LogLevel[] = ['debug', 'info', 'warn', 'error'];
   currentLevel: LogLevel;
 
-  constructor(initialLevel: LogLevel = "debug") {
+  constructor(initialLevel: LogLevel = 'debug') {
     this.currentLevel = initialLevel;
   }
 
@@ -34,16 +34,16 @@ class ConsoleLogger implements LoggerInterface {
       const formattedMessage = `[${level.toUpperCase()}] ${timestamp}: ${message}`;
 
       switch (level) {
-        case "debug":
+        case 'debug':
           console.debug(formattedMessage);
           break;
-        case "info":
+        case 'info':
           console.info(formattedMessage);
           break;
-        case "warn":
+        case 'warn':
           console.warn(formattedMessage);
           break;
-        case "error":
+        case 'error':
           console.error(formattedMessage);
           break;
       }
@@ -51,19 +51,19 @@ class ConsoleLogger implements LoggerInterface {
   }
 
   debug(message: string): void {
-    this.log("debug", message);
+    this.log('debug', message);
   }
 
   info(message: string): void {
-    this.log("info", message);
+    this.log('info', message);
   }
 
   warn(message: string): void {
-    this.log("warn", message);
+    this.log('warn', message);
   }
 
   error(message: string): void {
-    this.log("error", message);
+    this.log('error', message);
   }
 }
 

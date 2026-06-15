@@ -6,14 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "format": "prettier --write .",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.1",
-    "@tanstack/react-query": "^5.90.6",
-    "@tanstack/react-query-devtools": "^5.90.7",
     "axios": "^1.18.0",
     "axios-mock-adapter": "^2.1.0",
     "clsx": "^2.1.1",
@@ -40,6 +39,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "prettier": "^3.8.4",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12"

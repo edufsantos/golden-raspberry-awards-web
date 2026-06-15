@@ -13,7 +13,7 @@ interface ServicesContextProps {
 }
 
 const ServicesContext = createContext<ServicesContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export const ServicesProvider = ({ children }: { children: ReactNode }) => {

@@ -5,9 +5,16 @@ const Layout = () => {
     <div className="min-h-screen bg-muted/30">
       <header className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 md:px-6">
-          <div className="flex flex-col items-start">
-            <span className="text-sm font-medium text-muted-foreground">Outsera</span>
-            <span className="text-base font-semibold">Golden Raspberry Awards</span>
+          <div className="flex items-center gap-3">
+            <img
+              src="/assets/award-icon.png"
+              alt="Golden film award icon"
+              className="h-10 w-10 rounded-md object-contain"
+            />
+            <div className="flex flex-col items-start">
+              <span className="text-sm font-medium text-muted-foreground">Outsera</span>
+              <span className="text-base font-semibold">Golden Raspberry Awards</span>
+            </div>
           </div>
           <nav className="flex gap-2">
           <NavLink

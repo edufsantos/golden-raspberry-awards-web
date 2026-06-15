@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 
 import { useServices } from '@/app/context/services-context';
 
-import type { DashboardSummary } from '../models/dashboard';
+import type { MultipleWinnersYear } from '../models/fetch-years-with-multiple-winners';
 
-export const useDashboardQuery = () => {
+export const useYearsWithMultipleWinners = () => {
   const { dashboardService } = useServices();
 
-  const [data, setData] = useState<DashboardSummary | null>(null);
+  const [data, setData] = useState<MultipleWinnersYear[] | null>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
+  // Poderiamos utilizar useQuery do react-query aqui, mas para manter a consistência com os outros hooks e evitar dependências adicionais, optei por usar useEffect e useState.
   useEffect(() => {
     let mounted = true;
 
@@ -19,15 +20,16 @@ export const useDashboardQuery = () => {
       setIsError(false);
 
       try {
-        const response = await dashboardService.fetchDashboardSummary();
+        const response = await dashboardService.fetchYearsWithMultipleWinners();
         if (!mounted) return;
         setData(response);
       } catch {
         if (!mounted) return;
         setIsError(true);
       } finally {
-        if (!mounted) return;
-        setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     };
 

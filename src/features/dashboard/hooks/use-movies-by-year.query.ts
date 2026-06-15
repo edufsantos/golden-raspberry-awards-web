@@ -1,24 +1,16 @@
 import { useEffect, useState } from 'react';
 
 import { useServices } from '@/app/context/services-context';
-
-import type { Movie } from '../models/dashboard';
+import type { MovieByYear } from '../models/fetch-movies-by-year';
 
 export const useMoviesByYearQuery = (year: number | null) => {
   const { dashboardService } = useServices();
 
-  const [data, setData] = useState<Movie[]>([]);
+  const [data, setData] = useState<MovieByYear[]>([]);
   const [isFetching, setIsFetching] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    if (year === null) {
-      setData([]);
-      setIsError(false);
-      setIsFetching(false);
-      return;
-    }
-
     let mounted = true;
 
     const run = async () => {
@@ -33,8 +25,9 @@ export const useMoviesByYearQuery = (year: number | null) => {
         if (!mounted) return;
         setIsError(true);
       } finally {
-        if (!mounted) return;
-        setIsFetching(false);
+        if (mounted) {
+          setIsFetching(false);
+        }
       }
     };
 
