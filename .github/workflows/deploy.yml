@@ -45,7 +45,7 @@ jobs:
 
       - name: Deploy to S3 (Main Distribution )
         run: |
-          aws s3 sync --delete ./dist/public s3://${{ secrets.DEPLOY_BUCKET }}
+          aws s3 sync --delete ./dist s3://${{ secrets.DEPLOY_BUCKET }}
 
       - name: Invalidate CloudFront Cache (Main Distribution )
         run: |
