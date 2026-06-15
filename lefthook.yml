@@ -1,0 +1,25 @@
+pre-commit:
+  parallel: true
+  commands:
+    type-check:
+      glob: '*.{ts,tsx}'
+      run: yarn typecheck
+    lint-css:
+      glob: '*.{css,scss}'
+      run: yarn stylelint {staged_files}
+    lint-js:
+      glob: '*.{js,ts,jsx,tsx}'
+      run: yarn eslint {staged_files}
+
+# Use para validar mensagens de commit, garantindo que sigam um padrão específico.
+commit-msg:
+  parallel: true
+  commands:
+    lint-commit-msg:
+      run: yarn run commitlint --edit {1}
+
+pre-push:
+  parallel: true
+  commands:
+    test:
+      run: yarn test
