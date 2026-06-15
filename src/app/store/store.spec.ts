@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { initialDashboardSliceState } from '@/features/dashboard/store/dashboard-slice';
 import { initialMoviesSliceState } from '@/features/movies/store/movies-slice';
 
+import { initialDashboardSliceState } from '@/features/dashboard/store/dashboard-slice';
 import { useAppStore } from './store';
 
 describe('useAppStore', () => {
