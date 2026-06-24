@@ -31,10 +31,10 @@ describe('YearsWithMultipleWinnersPanel', () => {
     render(<YearsWithMultipleWinnersPanel />);
 
     expect(
-      screen.getByText('Anos com múltiplos vencedores'),
+      screen.getByText('List years with multiple winners'),
     ).toBeInTheDocument();
-    expect(screen.getByText('Ano')).toBeInTheDocument();
-    expect(screen.getByText('Quantidade de Vencedores')).toBeInTheDocument();
+    expect(screen.getByText('Year')).toBeInTheDocument();
+    expect(screen.getByText('Win Count')).toBeInTheDocument();
     expect(screen.getByText('1980')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
   });
@@ -48,6 +48,6 @@ describe('YearsWithMultipleWinnersPanel', () => {
 
     render(<YearsWithMultipleWinnersPanel />);
 
-    expect(screen.getByText('Nenhum ano encontrado')).toBeInTheDocument();
+    expect(screen.getByText('No years found')).toBeInTheDocument();
   });
 });

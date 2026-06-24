@@ -1,8 +1,10 @@
+import { cn } from '@/shared/lib/utils';
 import type { ReactNode } from 'react';
 
 type TableHeader = {
   key: string;
   label: string;
+  className?: string;
 };
 
 type SimpleTableProps<T> = {
@@ -18,17 +20,20 @@ const SimpleTable = <T,>({
   rows = [],
   getRowKey,
   renderRow,
-  emptyMessage = 'Sem dados',
+  emptyMessage = 'No data',
 }: SimpleTableProps<T>) => {
   return (
     <div className='overflow-x-auto rounded-md border'>
       <table className='min-w-full text-sm'>
         <thead>
-          <tr className='bg-muted/50 text-left'>
+          <tr className='bg-gray-50 text-left'>
             {headers.map((header) => (
               <th
                 key={header.key}
-                className='h-10 border-b px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground'
+                className={cn(
+                  'h-10 border px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground',
+                  header.className,
+                )}
               >
                 {header.label}
               </th>
@@ -40,10 +45,13 @@ const SimpleTable = <T,>({
             rows.map((row, index) => (
               <tr
                 key={getRowKey(row, index)}
-                className='border-b text-left last:border-b-0'
+                className='border-b text-left last:border-b-0 odd:bg-white even:bg-gray-50'
               >
                 {renderRow(row).map((cell, cellIndex) => (
-                  <td key={cellIndex} className='h-10 px-3 text-foreground'>
+                  <td
+                    key={cellIndex}
+                    className='h-10 border px-3 text-foreground'
+                  >
                     {cell}
                   </td>
                 ))}

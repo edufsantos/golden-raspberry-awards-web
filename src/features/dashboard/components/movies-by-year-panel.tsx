@@ -1,3 +1,5 @@
+import { Search } from 'lucide-react';
+
 import { useMoviesByYearHandler } from '../hooks/use-movies-by.handler';
 import type { Movie } from '../models/fetch-movies-by-year';
 import { PanelCard } from './panel-card';
@@ -8,24 +10,22 @@ const MoviesByYearPanel = () => {
     useMoviesByYearHandler();
 
   return (
-    <PanelCard title='Vencedores por ano'>
-      <div className='mb-4 flex flex-wrap items-end gap-2'>
-        <label className='flex flex-col text-sm text-muted-foreground'>
-          Ano
-          <input
-            type='number'
-            value={searchYear}
-            onChange={(event) => setSearchYear(event.target.value)}
-            className='mt-1 h-10 w-36 rounded-md border bg-background px-3 text-foreground'
-            placeholder='Ex: 1990'
-          />
-        </label>
+    <PanelCard title='List movies winners by year'>
+      <div className='mb-4 flex flex-row items-end gap-2'>
+        <input
+          type='number'
+          value={searchYear}
+          onChange={(event) => setSearchYear(event.target.value)}
+          className='mt-1 h-10 w-full rounded-md border bg-background px-3 text-foreground'
+          placeholder='Search by year'
+        />
         <button
           type='button'
           onClick={handleSearch}
-          className='h-10 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90'
+          className='flex h-10 w-10 items-center justify-center rounded-md bg-blue-500 text-white hover:bg-blue-600'
+          aria-label='Search'
         >
-          Buscar
+          <Search className='h-4 w-4' />
         </button>
       </div>
 
@@ -41,20 +41,14 @@ const MoviesByYearPanel = () => {
       {moviesByYearQuery.data && !moviesByYearQuery.isError && (
         <SimpleTable<Movie>
           headers={[
-            { key: 'id', label: 'ID' },
-            { key: 'year', label: 'Ano' },
-            { key: 'title', label: 'Título' },
-            { key: 'winner', label: 'Vencedor' },
+            { key: 'id', label: 'Id' },
+            { key: 'year', label: 'Year' },
+            { key: 'title', label: 'Title' },
           ]}
           rows={moviesByYearQuery.data ?? []}
           getRowKey={(row) => row.id}
-          renderRow={(row) => [
-            row.id,
-            row.year,
-            row.title,
-            row.winner ? 'Sim' : 'Não',
-          ]}
-          emptyMessage='Nenhum filme encontrado para o ano informado'
+          renderRow={(row) => [row.id, row.year, row.title]}
+          emptyMessage='No movies found for the specified year'
         />
       )}
     </PanelCard>

@@ -17,11 +17,11 @@ const TopStudiosPanel = () => {
   const { rankedStudioWinners } = useStudioWinnersRankedHandler();
 
   return (
-    <PanelCard title='Top 3 estúdios com mais vitórias'>
+    <PanelCard title='Top 3 studios with winners'>
       <SimpleTable<RankedStudioWinCount>
         headers={[
-          { key: 'name', label: 'Nome' },
-          { key: 'winCount', label: 'Quantidade de Vitórias' },
+          { key: 'name', label: 'Name' },
+          { key: 'winCount', label: 'Win Count' },
         ]}
         rows={rankedStudioWinners}
         getRowKey={(row) => row.name}
@@ -36,7 +36,7 @@ const TopStudiosPanel = () => {
           </div>,
           row.winCount,
         ]}
-        emptyMessage='Nenhum estúdio encontrado'
+        emptyMessage='No studios found'
       />
     </PanelCard>
   );

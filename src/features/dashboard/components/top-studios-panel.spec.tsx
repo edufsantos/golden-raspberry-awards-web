@@ -25,11 +25,9 @@ describe('TopStudiosPanel', () => {
 
     render(<TopStudiosPanel />);
 
-    expect(
-      screen.getByText('Top 3 estúdios com mais vitórias'),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Nome')).toBeInTheDocument();
-    expect(screen.getByText('Quantidade de Vitórias')).toBeInTheDocument();
+    expect(screen.getByText('Top 3 studios with winners')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Win Count')).toBeInTheDocument();
     expect(screen.getByText('Studio A')).toBeInTheDocument();
     expect(screen.getByText('10')).toBeInTheDocument();
   });
@@ -41,7 +39,7 @@ describe('TopStudiosPanel', () => {
 
     render(<TopStudiosPanel />);
 
-    expect(screen.getByText('Nenhum estúdio encontrado')).toBeInTheDocument();
+    expect(screen.getByText('No studios found')).toBeInTheDocument();
   });
 
   it('renders one medal icon per ranked row', () => {

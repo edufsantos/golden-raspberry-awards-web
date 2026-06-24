@@ -10,19 +10,12 @@ const Dashboard = () => {
     <div className='space-y-6'>
       <div className='flex flex-col gap-1'>
         <h1 className='text-3xl font-bold tracking-tight'>Dashboard</h1>
-        <p className='text-sm text-muted-foreground'>
-          Resumo dos vencedores do Golden Raspberry Awards
-        </p>
       </div>
       <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
         <YearsWithMultipleWinnersPanel />
         <TopStudiosPanel />
-        <div className='col-span-1 md:col-span-2'>
-          <ProducersIntervalsPanel />
-        </div>
-        <div className='col-span-1 md:col-span-2'>
-          <MoviesByYearPanel />
-        </div>
+        <ProducersIntervalsPanel />
+        <MoviesByYearPanel />
       </div>
     </div>
   );

@@ -1,9 +1,8 @@
-import { Navigate, Outlet, useLocation } from "react-router";
-
+import { Navigate, Outlet, useLocation } from 'react-router';
 
 const ProtectedRoute = ({
   isAllowed,
-  redirectPath = "/",
+  redirectPath = '/',
   children,
 }: React.PropsWithChildren<{
   isAllowed: boolean;

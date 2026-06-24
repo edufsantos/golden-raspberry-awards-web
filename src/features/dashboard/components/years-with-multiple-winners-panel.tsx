@@ -7,16 +7,16 @@ const YearsWithMultipleWinnersPanel = () => {
   const { data: yearsRows = [] } = useYearsWithMultipleWinners();
 
   return (
-    <PanelCard title='Anos com múltiplos vencedores'>
+    <PanelCard title='List years with multiple winners'>
       <SimpleTable<MultipleWinnersYear>
         headers={[
-          { key: 'year', label: 'Ano' },
-          { key: 'winnerCount', label: 'Quantidade de Vencedores' },
+          { key: 'year', label: 'Year' },
+          { key: 'winnerCount', label: 'Win Count' },
         ]}
         rows={yearsRows ?? []}
         getRowKey={(row) => row.year}
         renderRow={(row) => [row.year, row.winnerCount]}
-        emptyMessage='Nenhum ano encontrado'
+        emptyMessage='No years found'
       />
     </PanelCard>
   );

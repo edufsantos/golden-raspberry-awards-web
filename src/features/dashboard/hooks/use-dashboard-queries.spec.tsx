@@ -59,6 +59,10 @@ describe('dashboard query hooks', () => {
 
       const { result } = renderHook(() => useMoviesByYearQuery(2020));
 
+      act(() => {
+        result.current.refetch();
+      });
+
       await waitFor(() => {
         expect(result.current.isFetching).toBe(false);
       });
@@ -75,6 +79,10 @@ describe('dashboard query hooks', () => {
 
       const { result } = renderHook(() => useMoviesByYearQuery(1999));
 
+      act(() => {
+        result.current.refetch();
+      });
+
       await waitFor(() => {
         expect(result.current.isFetching).toBe(false);
       });
@@ -89,7 +97,11 @@ describe('dashboard query hooks', () => {
         deferred.promise,
       );
 
-      const { unmount } = renderHook(() => useMoviesByYearQuery(1998));
+      const { result, unmount } = renderHook(() => useMoviesByYearQuery(1998));
+
+      act(() => {
+        result.current.refetch();
+      });
 
       await waitFor(() => {
         expect(mockDashboardService.fetchMoviesByYear).toHaveBeenCalledWith(
@@ -122,7 +134,11 @@ describe('dashboard query hooks', () => {
         deferred.promise,
       );
 
-      const { unmount } = renderHook(() => useMoviesByYearQuery(1997));
+      const { result, unmount } = renderHook(() => useMoviesByYearQuery(1997));
+
+      act(() => {
+        result.current.refetch();
+      });
 
       await waitFor(() => {
         expect(mockDashboardService.fetchMoviesByYear).toHaveBeenCalledWith(

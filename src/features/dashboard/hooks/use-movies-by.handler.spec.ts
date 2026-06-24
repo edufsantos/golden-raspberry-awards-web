@@ -5,10 +5,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useMoviesByYearHandler } from './use-movies-by.handler';
 
 const mockSetSearchYear = vi.hoisted(() => vi.fn());
+const mockRefetch = vi.hoisted(() => vi.fn());
 const mockMoviesByYearQueryResult = vi.hoisted(() => ({
   data: [],
   isFetching: false,
   isError: false,
+  refetch: mockRefetch,
 }));
 
 const mockUseMoviesByYearQuery = vi.hoisted(() => vi.fn());
@@ -78,6 +80,27 @@ describe('useMoviesByYearHandler', () => {
 
     const { result } = renderHook(() => useMoviesByYearHandler());
 
-    expect(() => result.current.handleSearch()).not.toThrow();
+    result.current.handleSearch();
+
+    expect(mockRefetch).toHaveBeenCalledTimes(1);
   });
+
+  it('does not call refetch when input is blank', () => {
+    mockStore.dashboard.searchYear = '   ';
+
+    const { result } = renderHook(() => useMoviesByYearHandler());
+
+    result.current.handleSearch();
+
+    expect(mockRefetch).not.toHaveBeenCalled();
+  });
+});
+it('does not call refetch when input is invalid number', () => {
+  mockStore.dashboard.searchYear = 'abc';
+
+  const { result } = renderHook(() => useMoviesByYearHandler());
+
+  result.current.handleSearch();
+
+  expect(mockRefetch).not.toHaveBeenCalled();
 });

@@ -20,7 +20,10 @@ const AppRouter: React.FC = () => {
         {/* Protected Routes (require authentication) */}
         <Route
           element={
-            <ProtectedRoute isAllowed={!!isAuthenticated} redirectPath='/login' />
+            <ProtectedRoute
+              isAllowed={!!isAuthenticated}
+              redirectPath='/login'
+            />
           }
         >
           <Route element={<Layout />}>

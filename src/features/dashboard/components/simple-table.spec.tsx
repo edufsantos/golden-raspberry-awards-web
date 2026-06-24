@@ -65,7 +65,7 @@ describe('SimpleTable', () => {
       />,
     );
 
-    expect(screen.getByText('Sem dados')).toBeInTheDocument();
+    expect(screen.getByText('No data')).toBeInTheDocument();
   });
 
   it('renders cells returned by renderRow in order', () => {

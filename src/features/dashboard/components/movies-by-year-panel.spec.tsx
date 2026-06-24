@@ -35,13 +35,13 @@ describe('MoviesByYearPanel', () => {
 
     render(<MoviesByYearPanel />);
 
-    const input = screen.getByPlaceholderText('Ex: 1990');
-    const button = screen.getByRole('button', { name: 'Buscar' });
+    const input = screen.getByPlaceholderText('Search by year');
+    const button = screen.getByRole('button', { name: 'Search' });
 
     fireEvent.change(input, { target: { value: '1990' } });
     fireEvent.click(button);
 
-    expect(screen.getByText('Vencedores por ano')).toBeInTheDocument();
+    expect(screen.getByText('List movies winners by year')).toBeInTheDocument();
     expect(setSearchYear).toHaveBeenCalledWith('1990');
     expect(handleSearch).toHaveBeenCalledTimes(1);
   });
@@ -113,11 +113,10 @@ describe('MoviesByYearPanel', () => {
 
     render(<MoviesByYearPanel />);
 
-    expect(screen.getByText('ID')).toBeInTheDocument();
-    expect(screen.getByText('Título')).toBeInTheDocument();
+    expect(screen.getByText('Id')).toBeInTheDocument();
+    expect(screen.getByText('Title')).toBeInTheDocument();
     expect(screen.getByText('Movie 1')).toBeInTheDocument();
-    expect(screen.getByText('Sim')).toBeInTheDocument();
-    expect(screen.getByText('Não')).toBeInTheDocument();
+    expect(screen.queryByText('Sim')).not.toBeInTheDocument();
   });
 
   it('does not render table when there is error even if data exists', () => {

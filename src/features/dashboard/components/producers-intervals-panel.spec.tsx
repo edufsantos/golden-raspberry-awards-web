@@ -41,10 +41,12 @@ describe('ProducersIntervalsPanel', () => {
     render(<ProducersIntervalsPanel />);
 
     expect(
-      screen.getByText('Produtores com maior e menor intervalo de vitórias'),
+      screen.getByText(
+        'Producers with longest and shortest intervals between wins',
+      ),
     ).toBeInTheDocument();
-    expect(screen.getByText('Mínimo')).toBeInTheDocument();
-    expect(screen.getByText('Máximo')).toBeInTheDocument();
+    expect(screen.getByText('Minimum')).toBeInTheDocument();
+    expect(screen.getByText('Maximum')).toBeInTheDocument();
     expect(screen.getByText('Produtor Min')).toBeInTheDocument();
     expect(screen.getByText('Produtor Max')).toBeInTheDocument();
   });
@@ -58,7 +60,7 @@ describe('ProducersIntervalsPanel', () => {
 
     render(<ProducersIntervalsPanel />);
 
-    const empties = screen.getAllByText('Sem dados');
+    const empties = screen.getAllByText('No data');
     expect(empties).toHaveLength(2);
   });
 });

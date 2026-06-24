@@ -19,6 +19,8 @@ export const useMoviesByYearHandler = () => {
     if (!Number.isFinite(year)) {
       return;
     }
+
+    moviesByYearQuery.refetch();
   };
 
   return {

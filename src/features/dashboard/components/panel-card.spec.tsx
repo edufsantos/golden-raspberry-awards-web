@@ -29,8 +29,8 @@ describe('PanelCard', () => {
 
     expect(section).toHaveClass('rounded-xl', 'border', 'bg-card', 'p-4');
     expect(title).toHaveClass(
-      'text-sm',
-      'font-medium',
+      'text-md',
+      'font-semibold',
       'text-muted-foreground',
     );
   });
