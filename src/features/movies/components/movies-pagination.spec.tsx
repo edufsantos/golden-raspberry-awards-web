@@ -10,52 +10,89 @@ afterEach(() => {
 });
 
 describe('MoviesPagination', () => {
-  it('renders current page label and triggers navigation callbacks', () => {
-    const onPrev = vi.fn();
-    const onNext = vi.fn();
+  it('shows up to 5 page numbers and shifts window based on current page', () => {
+    const onPageChange = vi.fn();
 
     render(
-      <MoviesPagination
-        page={1}
-        totalPages={4}
-        onPrev={onPrev}
-        onNext={onNext}
-      />,
+      <MoviesPagination page={3} totalPages={10} onPageChange={onPageChange} />,
     );
 
-    expect(screen.getByText('Página 2 de 4')).toBeInTheDocument();
-
-    fireEvent.click(screen.getByRole('button', { name: 'Anterior' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Próxima' }));
-
-    expect(onPrev).toHaveBeenCalledTimes(1);
-    expect(onNext).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByRole('button', { name: 'Go to page 2' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Go to page 3' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Go to page 4' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Go to page 5' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Go to page 6' }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Go to page 1' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Go to page 7' }),
+    ).not.toBeInTheDocument();
   });
 
-  it('disables previous button on first page and next button on last page', () => {
+  it('triggers first, previous, next and last actions', () => {
+    const onPageChange = vi.fn();
+
     render(
-      <MoviesPagination
-        page={0}
-        totalPages={1}
-        onPrev={vi.fn()}
-        onNext={vi.fn()}
-      />,
+      <MoviesPagination page={2} totalPages={8} onPageChange={onPageChange} />,
     );
 
-    expect(screen.getByRole('button', { name: 'Anterior' })).toBeDisabled();
-    expect(screen.getByRole('button', { name: 'Próxima' })).toBeDisabled();
+    fireEvent.click(screen.getByRole('button', { name: 'First page' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Previous page' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Next page' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Last page' }));
+
+    expect(onPageChange).toHaveBeenNthCalledWith(1, 0);
+    expect(onPageChange).toHaveBeenNthCalledWith(2, 1);
+    expect(onPageChange).toHaveBeenNthCalledWith(3, 3);
+    expect(onPageChange).toHaveBeenNthCalledWith(4, 7);
+  });
+
+  it('calls onPageChange with selected page number', () => {
+    const onPageChange = vi.fn();
+
+    render(
+      <MoviesPagination page={0} totalPages={8} onPageChange={onPageChange} />,
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Go to page 4' }));
+
+    expect(onPageChange).toHaveBeenCalledWith(3);
+  });
+
+  it('disables first/previous on first page and next/last on last page', () => {
+    const { rerender } = render(
+      <MoviesPagination page={0} totalPages={5} onPageChange={vi.fn()} />,
+    );
+
+    expect(screen.getByRole('button', { name: 'First page' })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'Previous page' }),
+    ).toBeDisabled();
+
+    rerender(
+      <MoviesPagination page={4} totalPages={5} onPageChange={vi.fn()} />,
+    );
+
+    expect(screen.getByRole('button', { name: 'Next page' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Last page' })).toBeDisabled();
   });
 
   it('shows at least one page when totalPages is zero', () => {
-    render(
-      <MoviesPagination
-        page={0}
-        totalPages={0}
-        onPrev={vi.fn()}
-        onNext={vi.fn()}
-      />,
-    );
+    render(<MoviesPagination page={0} totalPages={0} onPageChange={vi.fn()} />);
 
-    expect(screen.getByText('Página 1 de 1')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Go to page 1' }),
+    ).toBeInTheDocument();
   });
 });

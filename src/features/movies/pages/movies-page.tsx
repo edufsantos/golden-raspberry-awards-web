@@ -6,10 +6,7 @@ const Movies = () => {
   return (
     <div className='space-y-6'>
       <div className='flex flex-col gap-1'>
-        <h1 className='text-3xl font-bold tracking-tight'>Filmes</h1>
-        <p className='text-sm text-muted-foreground'>
-          Lista de filmes paginado
-        </p>
+        <h1 className='text-3xl font-bold tracking-tight'>List movies</h1>
       </div>
       <MoviesTable />
     </div>
